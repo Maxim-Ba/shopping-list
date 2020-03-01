@@ -12,6 +12,7 @@
   -MongoDB
   -Express
   -Mongoose
+  -Bootstrap
 
 ### `npm start`
 
