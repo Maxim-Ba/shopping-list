@@ -1,15 +1,18 @@
 import {connect} from 'react-redux';
 import { List } from './List';
-import { addGroupAC } from '../../redux/ItemListReducer';
+import {  addItemAC } from '../../redux/ItemListReducer';
+import { toggleWindowConditionAC } from '../../redux/modalWindowReducer';
 
 const mapStateToProps = (state) =>({
-  groups: state.itemListReduser.groups
-})
+  groups: state.itemListReducer.groups,
+  inputValue: state.modalWindowReducer.input
+});
 const mapDispatchToProps = dispatch =>{
   return({ 
-    addGroup: (color, items)=>{dispatch(addGroupAC(color, items))}
+    addItem : (item, color) =>{dispatch(addItemAC(item, color));},
+    closeModalWindow: (flag) => {dispatch(toggleWindowConditionAC(flag));},
     
-  })
-}
+  });
+};
 
-export const ListCC = connect(mapStateToProps, mapDispatchToProps)(List)
+export const ListCC = connect(mapStateToProps, mapDispatchToProps)(List);

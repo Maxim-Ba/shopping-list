@@ -1,8 +1,14 @@
-import { createStore, combineReducers  } from 'redux';
-import {itemListReduser} from './ItemListReducer'
+import { createStore, combineReducers, applyMiddleware  } from 'redux';
+import thunk from 'redux-thunk';
+import {itemListReducer} from './ItemListReducer';
+import {modalWindowReducer} from './modalWindowReducer';
+import {titleOfListReduser} from './titleOfListReduser';
 
 const redusers = combineReducers({
-  itemListReduser
-})
+  itemListReducer,
+  modalWindowReducer,
+  titleOfListReduser,
 
-export const store = createStore(redusers)
+});
+
+export const store = createStore(redusers, applyMiddleware(thunk));

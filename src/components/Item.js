@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 export class Item extends React.Component {
   render(){
     return (
-      <div className=''>
+      <div className='rounded-circle container'>
 
       </div>
-    )
+    );
   }
 }

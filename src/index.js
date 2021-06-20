@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import {AppCC} from './AppCC';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {store} from './redux/store'
-import {Provider} from 'react-redux'
+import {store} from './redux/store';
+import {Provider} from 'react-redux';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <AppCC />
   </Provider>,
 document.getElementById('root'));
 
