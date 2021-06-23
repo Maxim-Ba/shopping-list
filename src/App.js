@@ -15,8 +15,8 @@ export default class App extends React.Component {
           <ListCC />
           <AddButtonCC />
 
-          <footer className="d-flex justify-content-end">
-            <p>&copy; Балашов Максим</p>
+          <footer className="d-flex justify-content-end align-items-end footer">
+            <p className="mb-1">&copy; Балашов Максим</p>
           </footer>
         </main>
 

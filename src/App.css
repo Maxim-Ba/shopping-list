@@ -11,7 +11,7 @@
 }
 .button-add{
   position: fixed;
-  bottom: 8%;
+  bottom: 2px;
   right: 48%;
   width: 38px;
   min-height: 38px;
@@ -36,10 +36,21 @@
 .modal-window__wraper{
   background-color: white;
 }
+.modal-window__color-btn{
+  width: 30px;
+  min-height: 30px;
+  border: none;
+}
+.modal-window__border{
+  border: 3px dashed whitesmoke;
+}
+.item{
+  min-height: 30px;
+}
 
-
-
-
+.footer{
+  min-height: 50px;
+}
 /* __________________________________ */
 .my-node-enter {
   transform: translateY(300px);
