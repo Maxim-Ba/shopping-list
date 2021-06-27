@@ -11,6 +11,7 @@ class DeletedItem extends React.Component {
   }
   render() { 
     return ( 
+      
       <div className="deleted-item alert-dark rounded mb-1" onClick={this.handleClick}>
         {this.props.item.items}
       </div>

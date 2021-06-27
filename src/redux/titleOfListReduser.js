@@ -5,6 +5,9 @@ const initialState = {
 };
 const SET_TITLE = "SET_TITLE";
 const SET_COLOR = "SET_COLOR";
+
+
+
 export const setNameofListAC = (name) => {
   return {
     type: SET_TITLE,
@@ -17,6 +20,7 @@ export const setColorofListAC = (color) => {
     payload: color,
   };
 };
+
 
 export const titleOfListReduser = (state = initialState, action) => {
   switch (action.type) {

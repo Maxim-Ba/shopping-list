@@ -1,27 +1,12 @@
 import React from "react";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
-import { ModalWindowWrapper } from "./ModalwindowWrapper";
-import "../../App.css";
-
-export class ModalWindow extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpenAlertWindow: false,
-    };
-  }
-  componentDidMount() {
-    this.setState({ isOpenAlertWindow: true });
-  }
+export class ModalWindowWrapper extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.toggleModalWindow(false);
     this.props.addItem(this.props.inputValue, this.props.colorSelected);
     this.props.changeInput("");
   };
-  handleClick = () => {
-    this.props.toggleModalWindow(false);
-  };
+
   handleInput = (e) => {
     this.props.changeInput(e.target.value);
   };
@@ -54,26 +39,33 @@ export class ModalWindow extends React.Component {
   };
   render() {
     return (
-      <div
-        className="modal-window d-flex fixed-top justify-content-center align-items-end"
-        onClick={(e) => this.handleClick(e)}
-      >
-        <CSSTransition
-          in={this.state.isOpenAlertWindow}
-          timeout={1000}
-          classNames={{
-            enter: "alert-enter",
-            enterActive: "alert-enter-done",
-            exit: "alert-exit",
-            exitActive: "alert-exit-done",
-          }}
-          mountOnEnter
-          unmountOnExit
-          onExited={() => this.props.toggleModalWindow(false)}
-        >
-          <ModalWindowWrapper {...this.props} />
-        </CSSTransition>
-      </div>
+    
+          <div
+            className="modal-window__wraper w-50 h-50 border border-primary rounded-top form-group m-0"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <form
+              className="modal-window__form d-flex flex-column p-3"
+              onSubmit={this.handleSubmit}
+            >
+              <div className="modal-window__input-container d-flex justify-content-between">
+                <input
+                  placeholder="Введите название товара"
+                  type="text"
+                  onChange={(e) => this.handleInput(e)}
+                  className="w-75"
+                  required
+                />
+                <button className="btn btn-secondary" type="submit">
+                  Добавить
+                </button>
+              </div>
+              {this.displayColorsBtn(
+                this.props.colors,
+                this.props.colorSelected
+              )}
+            </form>
+          </div>
     );
   }
 }

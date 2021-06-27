@@ -9,6 +9,7 @@ export class AddButton extends React.Component {
       <button
         className="btn btn-primary rounded-circle button-add d-flex"
         onClick={this.handleClick}
+        style={{backgroundColor:this.props.titleColor}}
       >
         <svg
           width="1.5em"

@@ -2,59 +2,47 @@ const initialState = {
   groups: [
     {
       color: "red",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "green",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "blue",
-      items: ["яблоки", "яблоки"],
+      items: []
     },
     {
       color: "gray",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "cyan",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "yellow",
-      items: [
-        "яблоки",
-        "яблоки",
-        "яблоки",
-        "яблоки",
-        "яблоки",
-        "яблоки",
-        "яблоки",
-      ],
+      items: [],
     },
     {
       color: "indigo",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "midnightblue",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "salmon",
-      items: ["яблоки", "яблоки"],
+      items: [],
     },
     {
       color: "orange",
-      items: ["яблоки", "яблоки", "яблоки", "яблоки"],
+      items: [],
     },
   ],
   deleted: [
-    {
-      color: "black",
-      items: "book",
-      index: 100
-    },
+
   ],
 };
 const ADD_ITEM = "ADD_ITEM";

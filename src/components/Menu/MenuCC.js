@@ -1,13 +1,12 @@
 import { connect } from "react-redux";
 import { toggleMenuWindowAC } from "../../redux/menuReducer";
-import { Header } from "./Header";
+import Menu from "./Menu";
 const mapDispatchToState = (state) => ({
-  titleList: state.titleOfListReduser.title,
-  titleColor: state.titleOfListReduser.color,
+  isOpenMenu: state.menuReducer.isOpenMenu
 });
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleMenuWindow: (flag) => dispatch(toggleMenuWindowAC(flag)),
   };
 };
-export const HeaderCC = connect(mapDispatchToState, mapDispatchToProps)(Header);
+export const MenuCC = connect(mapDispatchToState, mapDispatchToProps)(Menu);
