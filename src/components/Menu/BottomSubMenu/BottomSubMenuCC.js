@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { BottomSubMenu } from "./BottomSubMenu";
 import { setColorofListAC, setNameofListAC } from "../../../redux/titleOfListReduser";
 import { toggleMenuWindowAC } from "../../../redux/menuReducer";
+import { ceateList } from "../../../http/list.actions";
 
 const mapStateToProps = (state) => ({
 
@@ -16,7 +17,8 @@ const mapDispatchToProps = dispatch => {
     },
     toggleMenuWindow: flag => {
       dispatch(toggleMenuWindowAC(flag));
-    }
+    },
+    ceateList:(name, color)=>dispatch(ceateList(name, color))
   });
 };
 

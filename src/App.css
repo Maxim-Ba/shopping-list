@@ -54,11 +54,18 @@
 .menu__item{
   cursor: pointer;
 }
+.menu__item:hover{
+  text-decoration: underline;
+}
 .avatar{
   width: 40px;
   min-height: 40px;
   cursor: pointer;
 
+}
+.messages__aside{
+  opacity: .4;
+  
 }
 /* ________________CSS TRANSITION GROUP__________________ */
 .alert-enter {

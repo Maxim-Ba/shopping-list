@@ -1,7 +1,6 @@
 const initialState = {
   isOpen: false,
   input: "",
-  // написать функционал colorSelected  и дивы выбора цвеета
   colorSelected: "",
 };
 

@@ -1,8 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { CSSTransition } from "react-transition-group";
-import { BottomSubMenu } from './BottomSubMenu/BottomSubMenu';
 import { BottomSubMenuCC } from './BottomSubMenu/BottomSubMenuCC';
-
+import { ItemMenu } from './ItemMenu';
+// сделать DRY
 class Menu extends React.Component {
   constructor(props) {
     super(props);
@@ -11,15 +12,22 @@ class Menu extends React.Component {
       isOpenSubmenu: false,
       isOpenEditTitle: false,
       isOpenCreateNewList: false,
-      deleteCurrentList:false,
-
+      deleteCurrentList: false,
+      titleSubMenuLinks: [
+        'Создать новый список',
+        'Удалить текущий список',
+        'Сохранить список в профиле',
+        'Редактировать название списка'
+      ]
     };
   }
+
   componentDidMount() {
     this.setState({ isOpenAlertWindow: true });
     this.setState({ isOpenEditTitle: false });
   }
   closeAlertWindow(e) {
+    e.preventDefault();
     e.stopPropagation();
     this.props.toggleMenuWindow(false);
   }
@@ -41,7 +49,7 @@ class Menu extends React.Component {
             isOpenCreateNewList={this.state.isOpenCreateNewList}
             deleteCurrentList={this.state.deleteCurrentList}
 
-            menuLocaleState={(arg)=>this.setState(arg)}
+            menuLocaleState={(arg) => this.setState(arg)}
           />
         </CSSTransition>
         <CSSTransition
@@ -54,55 +62,43 @@ class Menu extends React.Component {
             className="menu container-fluid d-flex flex-column justify-content-start align-items-center px-0 zindex-sticky shadow"
             onClick={e => e.stopPropagation()}
           >
-            <div
+            { this.state.titleSubMenuLinks.map(title=>
+              <ItemMenu
+                key={title} 
+                titleSubMenuLinks={title}
+                isOpenSubmenu={e=>this.isOpenSubmenu(e)}
+                menuLocaleState={(arg)=>this.setState(arg)}
+              />
+            ) }
+            
+            <NavLink
+              to='/messages'
+              activeClassName={"menu__item alert-primary w-100"}
               className="menu__item alert-primary w-100"
-              onClick={e => {
-                this.setState({
-                  isOpenEditTitle: false,
-                  isOpenCreateNewList: true,
-                  deleteCurrentList:false
-
-                }); return this.isOpenSubmenu(e);
-              }}
             >
-              Создать новый список
-            </div>
-            <div
+              <div
+                className="menu__item alert-primary w-100"
+                onClick={e => {
+                  this.props.toggleMenuWindow(false);
+                }}
+              >
+                Сообщения
+              </div>
+            </NavLink >
+            <NavLink
+              to='/profile'
+              activeClassName={"menu__item alert-primary w-100"}
               className="menu__item alert-primary w-100"
-              onClick={e => {
-                this.setState({
-                  isOpenEditTitle: false,
-                  isOpenCreateNewList: false,
-                  deleteCurrentList:true
-                }); return this.isOpenSubmenu(e);
-              }}  
             >
-              Удалить текущий список
-            </div>
-            <div
-              className="menu__item alert-primary w-100">
-              Сохранить список в профиле
-            </div>
-            <div
-              onClick={e => {
-                this.setState({
-                  isOpenEditTitle: true,
-                  isOpenCreateNewList: false,
-                  deleteCurrentList:false
-
-                }); return this.isOpenSubmenu(e);
-              }}
-              className="menu__item alert-primary w-100">
-              Редактировать название списка
-            </div>
-            <div
-              className="menu__item alert-primary w-100">
-              Сообщения
-            </div>
-            <div
-              className="menu__item alert-primary w-100">
-              Мой профиль
-            </div>
+              <div
+                className="menu__item alert-primary w-100"
+                onClick={e => {
+                  this.props.toggleMenuWindow(false);
+                }}
+              >
+                Мой профиль
+              </div>
+            </NavLink >
           </div>
         </CSSTransition>
 

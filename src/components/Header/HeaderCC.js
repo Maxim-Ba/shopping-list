@@ -4,6 +4,8 @@ import { Header } from "./Header";
 const mapDispatchToState = (state) => ({
   titleList: state.titleOfListReduser.title,
   titleColor: state.titleOfListReduser.color,
+  isAuth: state.userReducer.isAuth,
+
 });
 const mapDispatchToProps = (dispatch) => {
   return {

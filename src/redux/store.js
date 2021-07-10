@@ -4,12 +4,19 @@ import {itemListReducer} from './ItemListReducer';
 import {modalWindowReducer} from './modalWindowReducer';
 import {titleOfListReduser} from './titleOfListReduser';
 import {menuReducer} from './menuReducer';
+import {userReducer} from './userReducer';
+import {loaderReducer} from './loaderReducer';
+import {listReducer} from './listReducer';
+
 
 const redusers = combineReducers({
   itemListReducer,
   modalWindowReducer,
   titleOfListReduser,
   menuReducer,
+  userReducer,
+  loaderReducer,
+  listReducer,
 
 });
 
