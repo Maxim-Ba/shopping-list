@@ -1,4 +1,5 @@
 import React from "react";
+import { saveOnLocStorage } from "../../utils/clearList";
 import DeletedItem from "../DeletedItem/DeletedItem";
 import { GroupItem } from "../GroupItem/GroupItem";
 
@@ -22,6 +23,13 @@ export class List extends React.Component {
       );
     });
   };
+
+
+  componentDidUpdate(){
+    if (!this.props.isAuth) {
+      saveOnLocStorage(this.props.groups, this.props.deletedItems);
+    }
+  }
   render() {
     return (
       <section className="list border border-dark flex-grow-1">

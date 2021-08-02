@@ -6,17 +6,33 @@
   min-height: 100vh;
 
 }
-.button{
-
+.spinner__wrapper{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .4);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
 }
 .button-add{
   position: fixed;
   bottom: 2px;
-  right: 48%;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 100px;
+  min-width: 73px;
+
+  min-height: 38px;
+}
+.button-crear-add{
   width: 38px;
   min-height: 38px;
 }
-
 .list{
   margin: 0;
   border-radius: 9px;
@@ -44,15 +60,22 @@
 .modal-window__border{
   border: 3px dashed whitesmoke;
 }
+.modal-window__input{
+  min-height: 37px;
+}
 .item{
   min-height: 30px;
 }
-
+.list-of-list:hover{
+  transform: scale(1.05);
+  cursor: pointer;
+}
 .footer{
   min-height: 50px;
 }
 .menu__item{
   cursor: pointer;
+  min-height: 24px;
 }
 .menu__item:hover{
   text-decoration: underline;
@@ -63,9 +86,54 @@
   cursor: pointer;
 
 }
+.bottom-submenu{
+  padding-top: 130px;
+}
 .messages__aside{
   opacity: .4;
   
+}
+.messages__add-user{
+  opacity: 1;
+  transition: color .3s;
+}
+.messages__add-user:hover{
+  color:black !important; 
+}
+.messages__add-user-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 3px;
+  height: 80px;
+}
+.messages__form-wrapper{
+  transform: translateY(-80px);
+  transition: .5s ease-in-out;
+}
+.messages__form-wrapper_active{
+  transform: translateY(0);
+}
+.zindex-1000{
+  z-index: 1000;
+}
+.zindex-1{
+  z-index: 1;
+}
+.profile{
+  margin-top: 20px;
+  margin-bottom: auto;
+}
+.profile__form-wrapper{
+  max-height: 0;
+  min-height: 0;
+  transform: translateY(-90px);
+  transition: .5s ease-in-out;
+}
+.profile__form-wrapper_active{
+  transform: translateY(0);
+  max-height: 90px;
+  min-height: 90px;
 }
 /* ________________CSS TRANSITION GROUP__________________ */
 .alert-enter {

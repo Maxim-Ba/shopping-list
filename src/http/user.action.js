@@ -1,6 +1,8 @@
 import axios from "axios";
-import { API_URL } from "../config";
+import { API_URL, API_URL_WS } from "../config";
+import { setWebsocketAC } from "../redux/chatReducer";
 import { setUserAC } from "../redux/userReducer";
+import { getLists } from "./list.actions";
 
 export const registration = async (email, password) => {
   
@@ -25,6 +27,10 @@ export const login = (email, password) => {
       });
       dispatch(setUserAC(response.data.user));
       localStorage.setItem("token", response.data.token);
+      const wS = new WebSocket(API_URL_WS + 'api/chat/');;
+      dispatch(setWebsocketAC(wS));
+      await getLists();
+      
     } catch (e) {
       console.log(e.response.data.message);
     }

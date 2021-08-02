@@ -1,7 +1,7 @@
 const initialState = {
   isOpen: false,
   input: "",
-  colorSelected: "",
+  colorSelected: "red",
 };
 
 const TOGGLE_WINDOW_CONDITION = "TOGGLE_WINDOW_CONDITION";

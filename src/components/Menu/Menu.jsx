@@ -21,6 +21,17 @@ class Menu extends React.Component {
       ]
     };
   }
+  saveListHandler() {
+    const { title, color, _id, groups, deleted } = this.props;
+    console.log(title, color, _id, groups, deleted);
+    if (_id) {
+      this.props.saveList(
+        title, color, _id, groups, deleted
+      );
+    }
+    console.log('List is not selected', _id);
+    this.props.toggleMenuWindow(false);
+  }
 
   componentDidMount() {
     this.setState({ isOpenAlertWindow: true });
@@ -62,16 +73,19 @@ class Menu extends React.Component {
             className="menu container-fluid d-flex flex-column justify-content-start align-items-center px-0 zindex-sticky shadow"
             onClick={e => e.stopPropagation()}
           >
-            { this.state.titleSubMenuLinks.map(title=>
-              <ItemMenu
-                key={title} 
-                titleSubMenuLinks={title}
-                isOpenSubmenu={e=>this.isOpenSubmenu(e)}
-                menuLocaleState={(arg)=>this.setState(arg)}
-              />
-            ) }
-            
-            <NavLink
+            {this.state.titleSubMenuLinks.map(title => (
+              this.props.isAuth
+                ? <ItemMenu
+                  key={title}
+                  titleSubMenuLinks={title}
+                  isOpenSubmenu={e => this.isOpenSubmenu(e)}
+                  menuLocaleState={(arg) => this.setState(arg)}
+                  saveList={() => this.saveListHandler()}
+                />
+                : null)
+            )}
+
+            {this.props.isAuth && <NavLink
               to='/messages'
               activeClassName={"menu__item alert-primary w-100"}
               className="menu__item alert-primary w-100"
@@ -84,7 +98,7 @@ class Menu extends React.Component {
               >
                 Сообщения
               </div>
-            </NavLink >
+            </NavLink >}
             <NavLink
               to='/profile'
               activeClassName={"menu__item alert-primary w-100"}

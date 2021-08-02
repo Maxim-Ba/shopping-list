@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Spinner } from "./spinner";
+import { Spinner } from "./Spinner";
 const mapDispatchToState = (state) => ({
   titleColor: state.titleOfListReduser.color,
 });

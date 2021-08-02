@@ -24,7 +24,6 @@ const LoginWindow = (props) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <small id="emailHelp" className="form-text text-muted">Мы никогда никому не передадим Вашу электронную почту.</small>
         </div>
         <div className="form-group">
           <label htmlFor="exampleInputPassword1">Пароль</label>

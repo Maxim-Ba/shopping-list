@@ -10,42 +10,41 @@ class Header extends React.Component {
 
   render() {
     return (
-      <header className="d-flex justify-content-start align-items-center my-2">
-        <button
-          className="button btn btn-primary"
-          style={{ backgroundColor: this.props.titleColor }}
-          onClick={(e) => this.handleClick(e)}
-        >
-          Меню
-        </button>
-        <h3 className="m-0 p-0" style={{ color: this.props.titleColor }}>
-          {this.props.titleList}
-        </h3>
-        {this.props.isAuth ? (
-          <div
-            className="d-flex justify-content-center align-items-center rounded-circle  avatar ml-auto"
+      <header className="d-flex justify-content-center align-items-center my-2 p-0 container-fluid">
+        <div className="row container-fluid">
+          <div className="col-12 col-sm-3 container-sm p-0 d-flex align-items-center">
+          <button
+            className="button btn btn-primary container-fluid p-0 h-100"
             style={{ backgroundColor: this.props.titleColor }}
+            onClick={(e) => this.handleClick(e)}
           >
-            <NavLink
-              to="/profile"
-              className="w-100 h-100 d-flex justify-content-center align-items-center"
-            >
-              <img src={avatar} alt="avatar" />
-            </NavLink>
+            Меню
+          </button>
           </div>
-        ) : (
-          <div
-            className="d-flex justify-content-center align-items-center rounded-circle  avatar ml-auto"
-            style={{ backgroundColor: this.props.titleColor }}
+          
+
+          <h3
+            className="m-0 p-0 col-12 col-sm-7 pb-2"
+            style={{ color: this.props.titleColor }}
           >
-            <NavLink
-              to="/profile"
-              className="w-100 h-100 d-flex justify-content-center align-items-center"
-            >
-              <img src={noAvatar} alt="avatar" />
-            </NavLink>
-          </div>
-        )}
+            <NavLink to="/"> {this.props.titleList}</NavLink>
+          </h3>
+
+            <div className="col-12 col-sm-2 d-flex justify-content-center">
+              <div
+                className="d-flex justify-content-center align-items-center rounded-circle avatar"
+                style={{ backgroundColor: this.props.titleColor }}
+              >
+                <NavLink
+                  to="/profile"
+                  className="w-100 h-100 d-flex justify-content-center align-items-center"
+                >
+                  <img src={this.props.isAuth ? avatar: noAvatar} alt="avatar" />
+                </NavLink>
+              </div>
+            </div>
+          
+        </div>
       </header>
     );
   }

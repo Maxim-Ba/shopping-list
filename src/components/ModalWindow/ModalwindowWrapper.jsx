@@ -16,19 +16,19 @@ export class ModalWindowWrapper extends React.Component {
   };
   displayColorsBtn = (colors, selectedColor) => {
     return (
-      <div className="modal-window__btn-wrapper d-flex justify-content-around mt-3 w-75">
+      <div className="modal-window__btn-wrapper d-flex justify-content-start mt-3 w-100 flex-wrap">
         {colors.map((colorBtn, index) =>
           selectedColor === colorBtn ? (
             <button
               key={index}
-              className="modal-window__color-btn modal-window__border border-white rounded"
+              className="modal-window__color-btn modal-window__border border-white rounded m-1"
               style={{ backgroundColor: colorBtn }}
               onClick={(e) => this.handleSelectColor(e, colorBtn)}
             ></button>
           ) : (
             <button
               key={index}
-              className="modal-window__color-btn rounded"
+              className="modal-window__color-btn rounded m-1"
               style={{ backgroundColor: colorBtn }}
               onClick={(e) => this.handleSelectColor(e, colorBtn)}
             ></button>
@@ -41,24 +41,31 @@ export class ModalWindowWrapper extends React.Component {
     return (
     
           <div
-            className="modal-window__wraper w-50 h-50 border border-primary rounded-top form-group m-0"
+            className="modal-window__wraper border border-primary rounded-top form-group m-0 row justify-content-md-center col-lg-6 col-md-8 col-sm-10 col-12 h-50"
             onClick={(e) => e.stopPropagation()}
           >
             <form
-              className="modal-window__form d-flex flex-column p-3"
+              className="modal-window__form d-flex flex-column p-3 container-fluid"
               onSubmit={this.handleSubmit}
             >
-              <div className="modal-window__input-container d-flex justify-content-between">
+              <div className="modal-window__input-container row m-0">
+
+                <div className="col-sm-12 col-md-12 col-lg-9 mb-1">
                 <input
                   placeholder="Введите название товара"
                   type="text"
                   onChange={(e) => this.handleInput(e)}
-                  className="w-75"
+                  className="w-100 h-100 modal-window__input"
                   required
                 />
-                <button className="btn btn-secondary" type="submit">
-                  Добавить
-                </button>
+                </div>
+
+                <div className="col-sm-12 col-md-12 col-lg-3 p-0">
+                  <button className="btn btn-secondary" type="submit">
+                    Добавить
+                  </button>
+                </div>
+                
               </div>
               {this.displayColorsBtn(
                 this.props.colors,

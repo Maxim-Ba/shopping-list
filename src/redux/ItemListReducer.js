@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
   groups: [
     {
       color: "red",
@@ -41,14 +41,14 @@ const initialState = {
       items: [],
     },
   ],
-  deleted: [
-
-  ],
+  deleted: [],
 };
+
 const ADD_ITEM = "ADD_ITEM";
 const DELETE_ITEM = "DELETE_ITEM";
 const REMOVE_FROM_DELETED = "REMOVE_FROM_DELETED";
 const SET_ALL_GROUPS = "SET_ALL_GROUPS";
+// const SAVE_ITEMS_FROM_SERVER = "SAVE_ITEMS_FROM_SERVER";
 
 export const addItemAC = (item, color) => {
   return {
@@ -80,6 +80,7 @@ export const setAllGroupsAC = (data) => {
 
   };
 };
+
 
 export const itemListReducer = (state = initialState, action) => {
   switch (action.type) {

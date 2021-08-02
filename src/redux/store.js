@@ -7,6 +7,7 @@ import {menuReducer} from './menuReducer';
 import {userReducer} from './userReducer';
 import {loaderReducer} from './loaderReducer';
 import {listReducer} from './listReducer';
+import {chatReducer} from './chatReducer';
 
 
 const redusers = combineReducers({
@@ -17,6 +18,7 @@ const redusers = combineReducers({
   userReducer,
   loaderReducer,
   listReducer,
+  chatReducer
 
 });
 

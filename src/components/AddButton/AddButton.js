@@ -7,7 +7,7 @@ export class AddButton extends React.Component {
   render() {
     return (
       <button
-        className="btn btn-primary rounded-circle button-add d-flex"
+        className="btn btn-primary rounded-circle button-crear-add d-flex"
         onClick={this.handleClick}
         style={{backgroundColor:this.props.titleColor}}
       >

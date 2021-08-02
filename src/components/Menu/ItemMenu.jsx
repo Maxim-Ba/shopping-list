@@ -9,7 +9,6 @@ const ItemMenu = (props) => {
           isOpenEditTitle: false,
           isOpenCreateNewList: true,
           deleteCurrentList: false
-
         });
         break;
         case 'Удалить текущий список':
@@ -17,7 +16,6 @@ const ItemMenu = (props) => {
             isOpenEditTitle: false,
             isOpenCreateNewList: false,
             deleteCurrentList: true
-  
           });
           break;
           case 'Сохранить список в профиле':
@@ -25,15 +23,14 @@ const ItemMenu = (props) => {
               isOpenEditTitle: false,
               isOpenCreateNewList: false,
               deleteCurrentList: false
-    
             });
+            props.saveList();
             break;
             case 'Редактировать название списка':
               props.menuLocaleState({
                 isOpenEditTitle: true,
                 isOpenCreateNewList: false,
                 deleteCurrentList: false
-      
               });
               break;
       default:
@@ -43,12 +40,13 @@ const ItemMenu = (props) => {
 
 
   return ( 
-
     <div
               className="menu__item alert-primary w-100"
               onClick={e => {
                 setMenuStateHandler();
-                return props.isOpenSubmenu(e);
+                if (props.titleSubMenuLinks !=='Сохранить список в профиле') {
+                  return props.isOpenSubmenu(e);
+                }
               }}
             >
               {props.titleSubMenuLinks}

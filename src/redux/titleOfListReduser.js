@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
   
       title: "Список покупок",
       color: "#007bff",

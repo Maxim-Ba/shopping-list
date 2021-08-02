@@ -6,7 +6,8 @@ import { toggleWindowConditionAC } from '../../redux/modalWindowReducer';
 const mapStateToProps = (state) =>({
   groups: state.itemListReducer.groups,
   deletedItems: state.itemListReducer.deleted,
-  inputValue: state.modalWindowReducer.input
+  inputValue: state.modalWindowReducer.input,
+  isAuth: state.userReducer.isAuth
 });
 const mapDispatchToProps = dispatch =>{
   return({ 

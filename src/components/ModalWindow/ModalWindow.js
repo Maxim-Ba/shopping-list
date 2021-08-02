@@ -55,7 +55,7 @@ export class ModalWindow extends React.Component {
   render() {
     return (
       <div
-        className="modal-window d-flex fixed-top justify-content-center align-items-end"
+        className=" vw-100 row modal-window d-flex fixed-top justify-content-center align-items-end container-fluid m-0 "
         onClick={(e) => this.handleClick(e)}
       >
         <CSSTransition
