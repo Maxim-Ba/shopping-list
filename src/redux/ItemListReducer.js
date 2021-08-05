@@ -48,7 +48,7 @@ const ADD_ITEM = "ADD_ITEM";
 const DELETE_ITEM = "DELETE_ITEM";
 const REMOVE_FROM_DELETED = "REMOVE_FROM_DELETED";
 const SET_ALL_GROUPS = "SET_ALL_GROUPS";
-// const SAVE_ITEMS_FROM_SERVER = "SAVE_ITEMS_FROM_SERVER";
+const SET_GROUPS = "SET_GROUPS";
 
 export const addItemAC = (item, color) => {
   return {
@@ -80,7 +80,12 @@ export const setAllGroupsAC = (data) => {
 
   };
 };
-
+export const setOnlyGroupsAC = (groups) => {
+  return {
+    type: SET_GROUPS,
+    payload: groups
+  };
+};
 
 export const itemListReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -123,6 +128,11 @@ export const itemListReducer = (state = initialState, action) => {
           groups: [...action.payload.groups],
           deleted: [...action.payload.deleted],
         };
+        case SET_GROUPS:
+          return {
+            ...state,
+            groups: [...action.payload],
+          };
     default:
       return state;
   }

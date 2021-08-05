@@ -9,7 +9,8 @@ const mapStateToProps = (state) => ({
   users: state.chatReducer.users,
   chat: state.chatReducer.chat,
   currentUser: state.userReducer.currentUser,
-  listID: state.titleOfListReduser._id
+  listID: state.titleOfListReduser._id,
+  isAuth: state.userReducer.isAuth
 });
 const mapDispatchToProps = dispatch => {
   return ({

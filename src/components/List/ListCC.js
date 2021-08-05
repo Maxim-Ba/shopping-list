@@ -7,7 +7,11 @@ const mapStateToProps = (state) =>({
   groups: state.itemListReducer.groups,
   deletedItems: state.itemListReducer.deleted,
   inputValue: state.modalWindowReducer.input,
-  isAuth: state.userReducer.isAuth
+  isAuth: state.userReducer.isAuth,
+  ws: state.chatReducer.ws,
+  listID: state.titleOfListReduser._id,
+  currentUser:state.userReducer.currentUser
+
 });
 const mapDispatchToProps = dispatch =>{
   return({ 

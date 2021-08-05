@@ -122,7 +122,6 @@ export const deleteList = (listId) => {
     } catch (error) {
       console.log(error, "--error--");
       dispatch(hideLoaderAC());
-
     }
   };
 };

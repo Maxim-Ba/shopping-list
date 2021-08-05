@@ -8,6 +8,7 @@ export class ModalWindow extends React.Component {
     super(props);
     this.state = {
       isOpenAlertWindow: false,
+      input: ''
     };
   }
   componentDidMount() {
@@ -16,14 +17,17 @@ export class ModalWindow extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.toggleModalWindow(false);
-    this.props.addItem(this.props.inputValue, this.props.colorSelected);
-    this.props.changeInput("");
+    this.props.addItem(this.state.input, this.props.colorSelected);
+      
+    this.setState({input: ''});
+    // this.props.changeInput("");
   };
   handleClick = () => {
     this.props.toggleModalWindow(false);
   };
   handleInput = (e) => {
-    this.props.changeInput(e.target.value);
+    this.setState({input: e.target.value});
+    // this.props.changeInput(e.target.value);
   };
   handleSelectColor = (event, color) => {
     event.preventDefault();
@@ -71,7 +75,12 @@ export class ModalWindow extends React.Component {
           unmountOnExit
           onExited={() => this.props.toggleModalWindow(false)}
         >
-          <ModalWindowWrapper {...this.props} />
+          <ModalWindowWrapper 
+            {...this.props} 
+            changeInput={(arg)=>this.setState({input:arg}) }
+            inputValue={this.state.input} 
+            
+            />
         </CSSTransition>
       </div>
     );

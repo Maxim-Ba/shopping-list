@@ -1,5 +1,6 @@
 import React from "react";
 import { saveOnLocStorage } from "../../utils/clearList";
+import { firstConnectWS, messageListenerWS, updateDeletedAndGroups, updateGroupsWS } from "../../websocket/websocket";
 import DeletedItem from "../DeletedItem/DeletedItem";
 import { GroupItem } from "../GroupItem/GroupItem";
 
@@ -24,10 +25,19 @@ export class List extends React.Component {
     });
   };
 
+  componentDidMount(){
+    this.props.ws && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
 
-  componentDidUpdate(){
+  }
+  componentDidUpdate(prevProps){
     if (!this.props.isAuth) {
       saveOnLocStorage(this.props.groups, this.props.deletedItems);
+    }
+    if (this.props.isAuth && this.props.ws && (prevProps.deletedItems === this.props.deletedItems) &&(JSON.stringify(prevProps.groups) !== JSON.stringify(this.props.groups)) ) {
+      updateGroupsWS(this.props.ws, this.props.groups, this.props.listID, this.props.currentUser.id);
+    }
+    if (this.props.isAuth && this.props.ws && ( JSON.stringify(prevProps.deletedItems) !==  JSON.stringify(this.props.deletedItems))) {
+      updateDeletedAndGroups(this.props.ws, this.props.groups, this.props.deletedItems, this.props.listID, this.props.currentUser.id);
     }
   }
   render() {

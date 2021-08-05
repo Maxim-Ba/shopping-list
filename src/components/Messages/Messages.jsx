@@ -1,5 +1,7 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import './messages.css';
+import { firstConnectWS, updateChatWS } from '../../websocket/websocket.js';
 
 class Messages extends React.Component {
   constructor(props) {
@@ -20,66 +22,72 @@ class Messages extends React.Component {
   sendMessageHandle(e) {
     e.preventDefault();
     if (this.props.ws) {
-      this.props.ws.send(JSON.stringify({
-        event: 'message',
-        message: this.state.messageField,
-        user: this.props.currentUser.id,
-        email: this.props.currentUser.email,
-        listID: this.props.listID
-      }));
+      updateChatWS(this.props.ws, this.state.messageField, this.props.currentUser.id, this.props.currentUser.email, this.props.listID);
       this.setState({ messageField: '' });
     }
-
-
   }
+
+
   addForm(e) {
     this.setState({ isOpenForm: !this.state.isOpenForm });
   }
   componentDidMount() {
-    this.props.getChat(this.props.listID);
-    if (this.props.ws) {
-      this.props.ws.onopen = (event) => {
-        this.props.ws.send(JSON.stringify({
-          event: 'connection',
-          user: this.props.currentUser.email,
-          listID: this.props.listID,
-          userID: this.props.currentUser._id
-        }));
-        
-      };
-      this.props.ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        // dispath сообщение в чат
-        console.log(data)
-        switch (data.event) {
-          case 'updateUser':
-            this.props.updateUser(data.users);
-
-            break;
-          case 'updateChat':
-            this.props.updateChat(data.message);
-
-            break;
-          default:
-            break;
-        }
-      };
+    if (this.props.isAuth) {
+      this.props.getChat(this.props.listID);
     }
-    this.props.ws && this.props.ws.send(JSON.stringify({
-      event: 'firstConnect',
-      listID: this.props.listID,
-      userID: this.props.currentUser.id
-    }));
-  }
-  // componentWillUnmount() {
-  //   if (this.props.ws) {
-  //     this.props.ws.close(1000, 'ОТКЛЮЧЕНИЕ КЛИЕНТА...');
+    if (this.props.ws) {
+      // this.props.ws.onopen = (event) => {
+      //   this.props.ws.send(JSON.stringify({
+      //     event: 'connection',
+      //     user: this.props.currentUser.email,
+      //     listID: this.props.listID,
+      //     userID: this.props.currentUser._id
+      //   }));
+      // };
 
-  //   }
-  // }
+
+      // messageListenerWS(this.props.ws);
+
+
+
+
+      // this.props.ws.onmessage = (event) => {
+      //   const data = JSON.parse(event.data);
+      //   // dispatch сообщение в чат
+      //   console.log(data)
+      //   switch (data.event) {
+      //     case 'updateUser':
+      //       this.props.updateUser(data.users);
+      //       break;
+      //     case 'updateChat':
+      //       this.props.updateChat(data.message);
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // };
+    }
+
+
+
+
+
+    this.props.ws && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
+
+
+
+
+    // && this.props.ws.send(JSON.stringify({
+    //   event: 'firstConnect',
+    //   listID: this.props.listID,
+    //   userID: this.props.currentUser.id,
+    //   user: this.props.currentUser.email,
+    // }));
+  }
   render() {
     return (
       <div className="messages h-100 d-flex justify-content-start container-sm flex-grow-1">
+        {!this.props.isAuth && <Redirect to="/profile" />}
         {              // на innerWidth > 575
         }
         {window.innerWidth > 575
@@ -94,7 +102,7 @@ class Messages extends React.Component {
               <p className="border-bottom m-1">Участники чата:</p>
               <div className="zindex-1000">
               </div>
-              {this.props.users.map((user,index)=><p userid={user._id} key={index}>{user.email}</p>)}
+              {this.props.users.map((user, index) => <p userid={user._id} key={index}>{user.email}</p>)}
               {/* список пользователей в этом чате */}
             </div>
             <div className={`zindex-1 messages__form-wrapper ${this.state.isOpenForm && 'messages__form-wrapper_active'}`}>
@@ -138,7 +146,7 @@ class Messages extends React.Component {
                   <p className="border-bottom m-1">Участники чата:</p>
                   <div className="zindex-1000">
                   </div>
-
+                  {this.props.users.map((user, index) => <p userid={user._id} key={index}>{user.email}</p>)}
                   {/* список пользователей в этом чате */}
                 </div>
                 <div className={`zindex-1 messages__form-wrapper ${this.state.isOpenForm && 'messages__form-wrapper_active'}`}>
@@ -160,8 +168,23 @@ class Messages extends React.Component {
             </div>
             }
             {/* <div>сообщения</div> */}
-            {this.props.chat.map((msg, index)=><p key={index}>{msg.message}{' '}{msg.email}  </p>)}
+            {this.props.chat.map((msg, index) => <div
+              key={index}
+              className={`${(msg.userID === this.props.currentUser.id) ? "text-right" : "text-left"} `}
+            >
+              <span
+                className={`  font-weight-normal`}
+              >
+                <span className="font-italic">
+                  {msg.email}{' :'}
+                </span>
+                {msg.message}
+              </span>
+            </div>
+            )}
           </div>
+
+
 
           <form className="messages__chat-input-wrapper d-flex mt-1 row w=100">
             <div className="col-12 col-sm-9 pr-sm-1 pr-md-3">

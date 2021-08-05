@@ -1,12 +1,15 @@
 import React from "react";
+import { updateGroupsWS } from "../../websocket/websocket";
 export class ModalWindowWrapper extends React.Component {
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    this.props.toggleModalWindow(false);
     this.props.addItem(this.props.inputValue, this.props.colorSelected);
+    this.props.toggleModalWindow(false);
+    // this.props.ws && updateGroupsWS(this.props.ws, this.props.groups, this.props.listID);
     this.props.changeInput("");
-  };
 
+  };
+  
   handleInput = (e) => {
     this.props.changeInput(e.target.value);
   };

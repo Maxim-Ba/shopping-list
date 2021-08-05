@@ -16,7 +16,23 @@ export default class App extends React.Component {
     if (!this.props.isAuth) {
       this.props.setListFromStorage();
     }
-  }
+    if (this.props.ws) {
+      // this.props.ws.onopen = (event) => {
+      //   console.log('APP');
+      //   this.props.ws.send(JSON.stringify({
+      //     event: 'connection',
+      //   }));
+
+      };
+
+      
+    }
+  
+
+  // shouldComponentUpdate(nextProps){
+  //   console.log('aaaaaaaaaa')
+  //   return this.props.ws === nextProps.ws;
+  // }
   componentWillUnmount() {
     if (this.props.ws) {
       this.props.ws.close(1000, 'ОТКЛЮЧЕНИЕ КЛИЕНТА...');
@@ -49,7 +65,6 @@ export default class App extends React.Component {
             <p className="mb-1">&copy; Балашов Максим</p>
           </footer>
         </main>
-        {/* сохранить в локал сторедж */}
         {this.props.isOpen && <ModalWindowCC />}
       </div>
     );
