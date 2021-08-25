@@ -1,16 +1,31 @@
-import { updateChatAC, updateUserAC } from "../redux/chatReducer";
+import { API_URL_WS } from "../config";
+import {
+  setWebsocketAC,
+  updateChatAC,
+  
+} from "../redux/chatReducer";
 import { setAllGroupsAC, setOnlyGroupsAC } from "../redux/ItemListReducer";
 import { store } from "../redux/store";
 import { setColorofListAC, setNameofListAC } from "../redux/titleOfListReduser";
 
-export const openWS = async (ws) => {
+export const openWS = async (ws, reconnect = null) => {
   ws.onopen = (event) => {
-    console.log("APP");
-    ws.send(
+    console.log("ws.onopen");
+    reconnect 
+    ? ws.send(
       JSON.stringify({
         event: "connection",
       })
-    );
+    )
+    : firstConnectWS (
+      ws,
+      store.getState().titleOfListReduser._id,
+      store.getState().userReducer.currentUser.id, 
+      store.getState().userReducer.currentUser.email
+      );
+      
+
+    
   };
 };
 
@@ -21,7 +36,21 @@ export const messageListenerWS = (ws) => {
       console.log(data);
       switch (data.event) {
         case "updateUser":
-          store.dispatch(updateUserAC(data.users));
+          if (data.users.length === 0) {
+            console.log("не найден");
+            break;
+          }
+          console.log(data.users, "updateUserAC");
+          break;
+        case "wellDone":
+          console.log(store.getState());
+
+          const listID = store.getState().titleOfListReduser._id;
+          const userID = store.getState().userReducer.currentUser.id;
+          const email = store.getState().userReducer.currentUser.email;
+          listID 
+            ? firstConnectWS (ws, listID, userID, email)
+            : console.log(listID, "listID on firstConnectWS");
           break;
         case "updateChat":
           store.dispatch(updateChatAC(data.message));
@@ -48,50 +77,74 @@ export const messageListenerWS = (ws) => {
 };
 
 export const updateChatWS = (ws, message, user, email, listID) => {
-  
-    ws.send(
-      JSON.stringify({
-        event: 'updateChat',
-          message,
-          user,
-          email,
-          listID
-      })
-    );
-  
-  
+  ws.send(
+    JSON.stringify({
+      event: "updateChat",
+      message,
+      user,
+      email,
+      listID,
+    })
+  );
 };
 
 export const updateGroupsWS = (ws, groups, listID, userID) => {
   ws.send(
     JSON.stringify({
-      event: 'updateGroups',
+      event: "updateGroups",
       groups,
       listID,
-      userID  
+      userID,
     })
   );
 };
-
-export const updateDeletedAndGroups = (ws, groups, deleted,  listID, userID) => {
+export const updateUserWS = (ws, listID, userEmail) => {
   ws.send(
     JSON.stringify({
-      event: 'updateDeletedAndGroups',
+      event: "updateUser",
+      listID,
+      userEmail,
+    })
+  );
+};
+export const updateDeletedAndGroups = (ws, groups, deleted, listID, userID) => {
+  ws.send(
+    JSON.stringify({
+      event: "updateDeletedAndGroups",
       groups,
       deleted,
       listID,
-      userID  
+      userID,
     })
   );
 };
 
-export const firstConnectWS = (ws, listID, userID, user ) => {
+export const firstConnectWS = (ws, listID, userID, email) => {
   ws.send(
     JSON.stringify({
       event: "firstConnect",
       listID,
       userID,
-      user
+      user: email,
     })
   );
+};
+export const onCloseWS = (ws) => {
+  ws.onclose = (event) => {
+    console.info(`WebSocket closed with code ${event.code}! ${event.reason}`);
+    store.dispatch(setWebsocketAC(null)); // ws = null
+    if (event.code === 1000) {
+      return;
+      // прерываемся если подключение установлено
+    }
+    let newWS;
+    do {
+      newWS = new WebSocket(API_URL_WS + "api/chat/");
+    } while (!newWS);
+    store.dispatch(setWebsocketAC(newWS));
+    openWS(newWS, true);
+    messageListenerWS(newWS);
+    onCloseWS(newWS);
+    // подключение
+  };
 };

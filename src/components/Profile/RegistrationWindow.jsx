@@ -25,6 +25,7 @@ const RegistrationWindow = (props) => {
             aria-describedby="emailHelp"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required={true}
           />
           <small id="emailHelp" className="form-text text-muted">Мы никогда никому не передадим Вашу электронную почту.</small>
         </div>
@@ -36,6 +37,8 @@ const RegistrationWindow = (props) => {
             id="exampleInputPassword1"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required={true}
+
           />
         </div>
         <button

@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { registration } from "../../http/user.action";
+import { updateUserWS } from "../../websocket/websocket";
+import { SharedListsCC } from "../SharedList/SharedListsCC";
 import { ChangePasswordWindow } from "./ChangePasswordWindow";
 import { LoginWindow } from "./LoginWindow";
 import OneListRow from "./OneListRow";
@@ -12,6 +14,7 @@ class Profile extends React.Component {
     redistrationWindowIsOpen: false,
     changePasswordFormIsOpen: false,
     shareListForm: false,
+    newUserInput:''
   }
   loginHandler(email, password) {
     this.props.login(email, password);
@@ -22,8 +25,10 @@ class Profile extends React.Component {
   handleSelectList(listId) {
     this.props.getList(listId);
   }
-  changePassHandler(password, newPassword) {
-//TODO CHANGE PaSsWoRd
+  addNewUser(e){
+    e.preventDefault();
+    updateUserWS(this.props.ws, this.props.selectedListId, this.state.newUserInput);
+    this.setState({newUserInput:''});
   }
 
   componentDidMount() {
@@ -32,14 +37,14 @@ class Profile extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (this.props.isAuth !== prevProps.isAuth) {
-      return this.props.getLists();
-    }
-    if (this.props.lists !== prevProps.lists) {
-      // return this.props.getLists();
-      //TODO check old -> new lists
+    if ((this.props.isAuth !== prevProps.isAuth) && this.props.isAuth) {
+      if (localStorage.getItem("token")) {
+        return this.props.getLists();
+      }
+
     }
   }
+
   openSendfield(e) {
     e.preventDefault();
     this.setState({ shareListForm: !this.state.shareListForm });
@@ -52,7 +57,8 @@ class Profile extends React.Component {
         {this.state.changePasswordFormIsOpen
           && <ChangePasswordWindow
             closeChPasForm={(arg) => this.setState(arg)}
-            changePassHandler={(password, newPassword) => this.changePassHandler(password, newPassword)}
+            email={this.props.email}
+            setnewpassword={(e, p, newP) => this.props.changePassword(e, p, newP)}
           />}
         {this.props.isAuth
           ?
@@ -65,6 +71,7 @@ class Profile extends React.Component {
                     className="profile__close btn border border-dark w-md-50 bg-light"
                     style={{ сolor: this.props.titleColor }}
                     onClick={() => this.setState({ changePasswordFormIsOpen: true })}
+
                   >
                     Сменить пароль
                   </button>
@@ -79,13 +86,13 @@ class Profile extends React.Component {
                 <div className="container overflow-hidden pb-1" >
                   <form className={`row profile__form-wrapper ${this.state.shareListForm && 'profile__form-wrapper_active'}`}>
                     <div className="col-12 mb-2">
-                      <input className="w-100 rounded" type="email" name="email" id="email" placeholder="Email пользователя..." />
+                      <input className="w-100 rounded" type="email" name="email" id="email" placeholder="Email пользователя..." value={this.state.newUserInput} onChange={e=>this.setState({newUserInput:e.target.value})}/>
 
                     </div>
                     <div className="col-12 mb-2">
-                      <button className="btn btn-warning w-100 text-center">
+                      <button className="btn btn-warning w-100 text-center" onClick={e=>this.addNewUser(e)}>
                         Поделиться
-                    </button>
+                      </button>
                     </div>
                   </form>
                   <button
@@ -94,7 +101,8 @@ class Profile extends React.Component {
                     onClick={e => this.openSendfield(e)}
                   >
                     Поделиться списком
-                </button>
+                  </button>
+                  <SharedListsCC />
                 </div>
               </div>
             </div>
@@ -114,7 +122,17 @@ class Profile extends React.Component {
                 <button
                   className="profile__close btn "
                   style={{ backgroundColor: this.props.titleColor }}
-                  onClick={() => this.props.logout()}
+                  onClick={() => {
+                    this.props.clearLists();
+                    this.props.logout();
+                    this.props.setListFromStorage();
+                    if (this.props.ws) {
+                      this.props.ws.close(1000, 'ОТКЛЮЧЕНИЕ КЛИЕНТА...');
+
+                    }
+                  }
+
+                  }
                 >
                   Выйти из профиля
                 </button>

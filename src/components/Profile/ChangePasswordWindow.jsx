@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 
 
 const ChangePasswordWindow = (props) => {
@@ -6,12 +6,15 @@ const ChangePasswordWindow = (props) => {
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordDouble, setNewPasswordDouble] = useState('');
   const [submitDisabled, setSubmitDisabled] = useState(false);
+
   const checkNewPassword = ()=>{
-    if (!!password && !!newPasswordDouble && !!newPassword && newPasswordDouble === newPassword) {
+    if (!!password && !!newPasswordDouble && !!newPassword && (newPasswordDouble === newPassword)) {
       return setSubmitDisabled (true);
     }
     setSubmitDisabled (false); // доделать проверку
   };
+  useEffect (()=>checkNewPassword(),[password,newPasswordDouble,newPassword] );
+  
   return (
     <div
       className="modal-window d-flex fixed-top justify-content-center align-items-center"
@@ -33,7 +36,7 @@ const ChangePasswordWindow = (props) => {
             placeholder="Введите cтарый пароль"
 
             onChange={(e) => {setPassword(e.target.value);
-              checkNewPassword();
+              // checkNewPassword();
             }}
           />
         </div>
@@ -47,7 +50,7 @@ const ChangePasswordWindow = (props) => {
             placeholder="Введите новый пароль"
 
             onChange={(e) => {setNewPassword(e.target.value);
-              checkNewPassword();
+              // checkNewPassword();
             }}
           />
                     <input
@@ -57,7 +60,7 @@ const ChangePasswordWindow = (props) => {
             value={newPasswordDouble}
             placeholder="Повторите новый пароль"
             onChange={(e) => {setNewPasswordDouble(e.target.value);
-              checkNewPassword();
+              // checkNewPassword();
 
             }}
           />
@@ -67,8 +70,8 @@ const ChangePasswordWindow = (props) => {
           className="btn btn-primary"
           disabled={!submitDisabled}
           onClick={() => {
-            props.closeChPasForm({ changePasswordFormIsOpen: false });//
-            return props.changePassHandler( password, newPassword);
+            props.closeChPasForm({ changePasswordFormIsOpen: false });
+            return props.setnewpassword(props.email, password, newPassword);
           }}
         >
           Отправить

@@ -3,6 +3,7 @@ import { toggleWindowConditionAC } from "./redux/modalWindowReducer";
 import App from "./App";
 import { showMessagesAC } from "./redux/menuReducer";
 import { setListFromStorage } from "./utils/clearList";
+import { clearListsAC } from "./redux/listReducer";
 
 const mapStateToProps = (state) => ({
   isOpen: state.modalWindowReducer.isOpen,
@@ -11,6 +12,8 @@ const mapStateToProps = (state) => ({
   loader: state.loaderReducer.loader,
   isAuth:state.userReducer.isAuth,
   ws:state.chatReducer.ws,
+  listID: state.titleOfListReduser._id,
+  currentUser: state.userReducer.currentUser,
 });
 const mapDispatchToProps = dispatch => {
   return ({
@@ -20,7 +23,8 @@ const mapDispatchToProps = dispatch => {
     showMessages: (flag) => {
       dispatch(showMessagesAC(flag));
     },
-    setListFromStorage: ()=>dispatch(setListFromStorage())
+    setListFromStorage: ()=>dispatch(setListFromStorage()),
+    clearLists: ()=>dispatch(clearListsAC())
   });
 };
 

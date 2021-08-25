@@ -3,7 +3,7 @@ import { API_URL, API_URL_WS } from "../config";
 import { setWebsocketAC } from "../redux/chatReducer";
 import { hideLoaderAC, showLoaderAC } from "../redux/loaderReducer";
 import { setUserAC } from "../redux/userReducer";
-import { messageListenerWS, openWS } from "../websocket/websocket";
+import { messageListenerWS, onCloseWS, openWS } from "../websocket/websocket";
 import { getLists } from "./list.actions";
 
 export const registration = async (email, password) => {
@@ -27,15 +27,17 @@ export const login = (email, password) => {
         email,
         password,
       });
+      console.log(response);
+      dispatch(hideLoaderAC());
+
       dispatch(setUserAC(response.data.user));
       localStorage.setItem("token", response.data.token);
-      setTimeout((null),1000);
-      await getLists();
+      dispatch(await getLists());
       const wS = new WebSocket(API_URL_WS + 'api/chat/');
       dispatch(setWebsocketAC(wS));
       openWS(wS);
-      messageListenerWS(wS)
-      dispatch(hideLoaderAC());
+      messageListenerWS(wS);
+      onCloseWS(wS);
     } catch (e) {
       console.log(e);
       dispatch(hideLoaderAC());
@@ -59,4 +61,21 @@ export const auth = () => {
   };
 };
 
+export const changePassword = (email, password, newPassword) => {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoaderAC());
+      const response = await axios.put(`${API_URL}api/user/changePassword`, {
+        email,
+        password,
+        newPassword
+      });
+      dispatch(hideLoaderAC());
+      alert(response.data.message);
+    } catch (e) {
+      console.log(e);
+      dispatch(hideLoaderAC());
+    }
+  };
+};
 

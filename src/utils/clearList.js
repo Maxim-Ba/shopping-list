@@ -1,4 +1,5 @@
 import { setAllGroupsAC } from "../redux/ItemListReducer";
+import { setColorofListAC, setIDListAC, setNameofListAC } from "../redux/titleOfListReduser";
 
 export function saveOnLocStorage(groups, deleted) {
   localStorage.setItem('groups',JSON.stringify(groups) );
@@ -22,7 +23,9 @@ export function setListFromStorage() {
     try {
         dispatch(setAllGroupsAC({groups, deleted}));
         //------------------------------------------
-        
+        dispatch(setIDListAC(''));
+        dispatch(setColorofListAC("#007bff"));
+        dispatch(setNameofListAC("Список покупок"));
       
     } catch (error) {
       console.log(error); 

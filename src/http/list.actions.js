@@ -1,10 +1,10 @@
 import axios from "axios";
 import { API_URL } from "../config";
 import { setAllGroupsAC } from "../redux/ItemListReducer";
-import { setListOfListsAC } from "../redux/listReducer";
+import { setListOfListsAC, setSharedListsAC } from "../redux/listReducer";
 import { hideLoaderAC, showLoaderAC } from "../redux/loaderReducer";
-import { initialState, setColorofListAC, setIDListAC, setNameofListAC } from "../redux/titleOfListReduser";
-
+import { setColorofListAC, setIDListAC, setNameofListAC } from "../redux/titleOfListReduser";
+import { store } from "../redux/store";
 
 export const ceateList = (name, color) => {
   return async (dispatch) => {
@@ -43,7 +43,7 @@ export const getLists = () => {
       );
       dispatch(hideLoaderAC());
       dispatch(setListOfListsAC(response.data));
-      if (!initialState._id) {
+      if (!store.getState().titleOfListReduser._id) {
         dispatch(setNameofListAC(response.data[0].name));
         dispatch(setColorofListAC(response.data[0].color));
         dispatch(setAllGroupsAC({groups:response.data[0].groups,deleted:response.data[0].deleted}));
@@ -77,8 +77,30 @@ export const getList = (listId) => {
   };
 };
 
+export const getSharedList = (userID) => {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoaderAC());
+      const response = await axios.get(
+        `${API_URL}api/list/sharedLists/${userID}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      dispatch(hideLoaderAC());
+      dispatch(setSharedListsAC(response.data));
+      
+    } catch (error) {
+      console.log(error, "--error--");
+      dispatch(hideLoaderAC());
+    }
+  };
+};
+
 export const saveList = (name, color, _id, groups, deleted) => {
   return async (dispatch) => {
+    console.log( "--saveList--");
+
     try {
       dispatch(showLoaderAC());
       const response = await axios.put(

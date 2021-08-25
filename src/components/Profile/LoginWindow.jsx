@@ -23,6 +23,7 @@ const LoginWindow = (props) => {
             aria-describedby="emailHelp"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required={true}
           />
         </div>
         <div className="form-group">
@@ -33,6 +34,8 @@ const LoginWindow = (props) => {
             id="exampleInputPassword1"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required={true}
+
           />
         </div>
         <button

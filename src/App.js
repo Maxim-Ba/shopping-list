@@ -10,35 +10,38 @@ import { Route, Switch } from "react-router-dom";
 import { ProfileCC } from "./components/Profile/ProfileCC";
 import { SpinnerCC } from "./components/Spinner/SpinnerCC";
 import { ClearButton } from "./components/AddButton/ClearButton";
+import { firstConnectWS } from "./websocket/websocket";
 
 export default class App extends React.Component {
   componentDidMount(){
     if (!this.props.isAuth) {
       this.props.setListFromStorage();
     }
-    if (this.props.ws) {
-      // this.props.ws.onopen = (event) => {
-      //   console.log('APP');
-      //   this.props.ws.send(JSON.stringify({
-      //     event: 'connection',
-      //   }));
 
-      };
-
-      
+    
     }
   
-
-  // shouldComponentUpdate(nextProps){
-  //   console.log('aaaaaaaaaa')
-  //   return this.props.ws === nextProps.ws;
-  // }
   componentWillUnmount() {
     if (this.props.ws) {
       this.props.ws.close(1000, 'ОТКЛЮЧЕНИЕ КЛИЕНТА...');
 
     }
+    localStorage.removeItem("token");
+    this.props.clearLists();
   }
+  componentDidUpdate(prevProps){
+    
+    if (!this.props.isAuth) {
+      this.props.clearLists();
+      this.props.setListFromStorage();
+    }
+    console.log('idUpdate')
+    prevProps.ws==null && this.props.ws && this.props.ws.readyState === 1 && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
+    
+  }
+  // shouldComponentUpdate(nextProps){
+  //   return nextProps.isAuth !== this.props.isAuth;
+  // }
   render() {
     return (
       <div className="App mx-auto ">

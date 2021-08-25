@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import './messages.css';
-import { firstConnectWS, updateChatWS } from '../../websocket/websocket.js';
+import { updateChatWS, updateUserWS } from '../../websocket/websocket.js';
 
 class Messages extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class Messages extends React.Component {
       burgerClicked: false,
       isOpenForm: false,
       messageField: '',
-
+      newUserInput:''
     };
   }
   handleClickBurger(e) {
@@ -27,7 +27,11 @@ class Messages extends React.Component {
     }
   }
 
-
+  addNewUser(e){
+    e.preventDefault();
+    updateUserWS(this.props.ws, this.props.listID, this.state.newUserInput);
+    this.setState({newUserInput:''});
+  }
   addForm(e) {
     this.setState({ isOpenForm: !this.state.isOpenForm });
   }
@@ -35,55 +39,14 @@ class Messages extends React.Component {
     if (this.props.isAuth) {
       this.props.getChat(this.props.listID);
     }
-    if (this.props.ws) {
-      // this.props.ws.onopen = (event) => {
-      //   this.props.ws.send(JSON.stringify({
-      //     event: 'connection',
-      //     user: this.props.currentUser.email,
-      //     listID: this.props.listID,
-      //     userID: this.props.currentUser._id
-      //   }));
-      // };
+    // if (this.props.ws) {
+    //   this.props.ws && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
+    // }
+    
 
-
-      // messageListenerWS(this.props.ws);
-
-
-
-
-      // this.props.ws.onmessage = (event) => {
-      //   const data = JSON.parse(event.data);
-      //   // dispatch сообщение в чат
-      //   console.log(data)
-      //   switch (data.event) {
-      //     case 'updateUser':
-      //       this.props.updateUser(data.users);
-      //       break;
-      //     case 'updateChat':
-      //       this.props.updateChat(data.message);
-      //       break;
-      //     default:
-      //       break;
-      //   }
-      // };
-    }
-
-
-
-
-
-    this.props.ws && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
-
-
-
-
-    // && this.props.ws.send(JSON.stringify({
-    //   event: 'firstConnect',
-    //   listID: this.props.listID,
-    //   userID: this.props.currentUser.id,
-    //   user: this.props.currentUser.email,
-    // }));
   }
+
+
   render() {
     return (
       <div className="messages h-100 d-flex justify-content-start container-sm flex-grow-1">
@@ -92,7 +55,7 @@ class Messages extends React.Component {
         }
         {window.innerWidth > 575
           ? <aside
-            className={`overflow-hidden messages__aside d-flex flex-column w-25 rounded`}
+            className={`overflow-hidden mh-100  messages__aside d-flex flex-column w-25 rounded`}
             style={{
               backgroundColor: `${this.props.titleColor}`,
             }}>
@@ -107,8 +70,12 @@ class Messages extends React.Component {
             </div>
             <div className={`zindex-1 messages__form-wrapper ${this.state.isOpenForm && 'messages__form-wrapper_active'}`}>
               <form className="messages__add-user-form">
-                <input placeholder="E-mail..." type="text" className="messages__add-user-input" />
-                <button className="btn btn-primary border">Добавить</button>
+                <input value={this.state.newUserInput} placeholder="E-mail..." type="text" className="messages__add-user-input" onChange={e=>this.setState({newUserInput:e.target.value})}/>
+                <button 
+                  className="btn btn-primary border"
+                  onClick={e=>this.addNewUser(e)}
+                >
+                  Добавить</button>
               </form>
               <button className="btn btn-dark border m-1 messages__add-user"
                 style={{
@@ -134,11 +101,11 @@ class Messages extends React.Component {
         }
         {              // на innerWidth менее 575
         }
-        <div className="messages__chat-wrapper container d-flex justify-content-start w-75 flex-column ml-1 p-0">
+        <div className="messages__chat-wrapper container d-flex justify-content-start w-75 flex-column ml-1 p-0 overflow-hidden">
           <div className="messages__chat border border-dark w-100 container rounded flex-grow-1 px-0">
             {this.state.burgerClicked && <div className="">
               <aside
-                className={`overflow-hidden messages__aside d-flex flex-column w-100 rounded`}
+                className={`overflow-hidden mh-100 messages__aside d-flex flex-column w-100 rounded`}
               >
                 <div className="zindex-1000" style={{
                   backgroundColor: `${this.props.titleColor}`,
@@ -151,8 +118,11 @@ class Messages extends React.Component {
                 </div>
                 <div className={`zindex-1 messages__form-wrapper ${this.state.isOpenForm && 'messages__form-wrapper_active'}`}>
                   <form className="messages__add-user-form">
-                    <input placeholder="E-mail..." type="text" className="messages__add-user-input" />
-                    <button className="btn btn-primary border">Добавить</button>
+                    <input placeholder="E-mail..." type="text" className="messages__add-user-input" onChange={e=>this.setState({newUserInput:e.target.value})}/>
+                    <button 
+                      className="btn btn-primary border"
+                      onClick={e=>this.addNewUser(e)}
+                    >Добавить</button>
                   </form>
                   <button className="btn btn-dark border m-1 messages__add-user"
                     style={{
