@@ -27,7 +27,6 @@ export const login = (email, password) => {
         email,
         password,
       });
-      console.log(response);
       dispatch(hideLoaderAC());
 
       dispatch(setUserAC(response.data.user));

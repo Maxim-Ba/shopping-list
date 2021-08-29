@@ -8,14 +8,13 @@ export function saveOnLocStorage(groups, deleted) {
 export function clearLocStorage() {
   localStorage.setItem('groups', null);
   localStorage.setItem('deleted', null);
-  console.log(localStorage.getItem('groups'), localStorage.getItem('deleted'));
 
 }
 
 
 export function setListFromStorage() {
   if (!JSON.parse(localStorage.getItem('groups'))) {
-    return null;
+    return async (dispatch)=>{};
   }
   return async (dispatch)=>{
     const groups = JSON.parse(localStorage.getItem('groups'));

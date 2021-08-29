@@ -16,6 +16,7 @@ class SharedList extends React.Component {
 
     }
   }
+
   render() {
     return (
       this.props.sharedLists.length !==0 && <section>

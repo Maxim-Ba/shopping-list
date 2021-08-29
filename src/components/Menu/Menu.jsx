@@ -23,13 +23,11 @@ class Menu extends React.Component {
   }
   saveListHandler() {
     const { title, color, _id, groups, deleted } = this.props;
-    console.log(title, color, _id, groups, deleted);
     if (_id) {
       this.props.saveList(
         title, color, _id, groups, deleted
       );
     }
-    console.log('List is not selected', _id);
     this.props.toggleMenuWindow(false);
   }
 

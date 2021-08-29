@@ -35,7 +35,6 @@ export default class App extends React.Component {
       this.props.clearLists();
       this.props.setListFromStorage();
     }
-    console.log('idUpdate')
     prevProps.ws==null && this.props.ws && this.props.ws.readyState === 1 && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
     
   }

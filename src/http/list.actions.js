@@ -5,6 +5,7 @@ import { setListOfListsAC, setSharedListsAC } from "../redux/listReducer";
 import { hideLoaderAC, showLoaderAC } from "../redux/loaderReducer";
 import { setColorofListAC, setIDListAC, setNameofListAC } from "../redux/titleOfListReduser";
 import { store } from "../redux/store";
+import { changeListID } from "../websocket/websocket";
 
 export const ceateList = (name, color) => {
   return async (dispatch) => {
@@ -65,11 +66,14 @@ export const getList = (listId) => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
+      console.log(response.data, "getList");
+
       dispatch(hideLoaderAC());
       dispatch(setNameofListAC(response.data.name));
       dispatch(setColorofListAC(response.data.color));
       dispatch(setAllGroupsAC({groups:response.data.groups,deleted:response.data.deleted}));
       dispatch(setIDListAC(response.data._id));
+      changeListID(store.getState().chatReducer.ws,response.data._id);
     } catch (error) {
       console.log(error, "--error--");
       dispatch(hideLoaderAC());
@@ -87,6 +91,7 @@ export const getSharedList = (userID) => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
+
       dispatch(hideLoaderAC());
       dispatch(setSharedListsAC(response.data));
       
@@ -99,8 +104,6 @@ export const getSharedList = (userID) => {
 
 export const saveList = (name, color, _id, groups, deleted) => {
   return async (dispatch) => {
-    console.log( "--saveList--");
-
     try {
       dispatch(showLoaderAC());
       const response = await axios.put(

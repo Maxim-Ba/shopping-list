@@ -33,13 +33,15 @@ class Profile extends React.Component {
 
   componentDidMount() {
     if (this.props.isAuth) {
-      return this.props.getLists();
+      this.props.getSharedList(this.props.userID);
+      return this.props.getLists(this.props.userID);
     }
   }
   componentDidUpdate(prevProps) {
     if ((this.props.isAuth !== prevProps.isAuth) && this.props.isAuth) {
       if (localStorage.getItem("token")) {
-        return this.props.getLists();
+        this.props.getSharedList(this.props.userID);
+        return this.props.getLists(this.props.userID);
       }
 
     }

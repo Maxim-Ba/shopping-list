@@ -16,7 +16,6 @@ export const getChat = (listID) =>{
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         dispatch(hideLoaderAC());
-        console.log(response)
         dispatch(updateChatAC(response.data.messages));
         dispatch(updateUserAC(response.data.users));
 

@@ -10,7 +10,6 @@ import { setColorofListAC, setNameofListAC } from "../redux/titleOfListReduser";
 
 export const openWS = async (ws, reconnect = null) => {
   ws.onopen = (event) => {
-    console.log("ws.onopen");
     reconnect 
     ? ws.send(
       JSON.stringify({
@@ -33,18 +32,13 @@ export const messageListenerWS = (ws) => {
   try {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
       switch (data.event) {
         case "updateUser":
           if (data.users.length === 0) {
-            console.log("не найден");
             break;
           }
-          console.log(data.users, "updateUserAC");
           break;
         case "wellDone":
-          console.log(store.getState());
-
           const listID = store.getState().titleOfListReduser._id;
           const userID = store.getState().userReducer.currentUser.id;
           const email = store.getState().userReducer.currentUser.email;
@@ -126,6 +120,15 @@ export const firstConnectWS = (ws, listID, userID, email) => {
       listID,
       userID,
       user: email,
+    })
+  );
+};
+
+export const changeListID = (ws, listID) => {
+  ws.send(
+    JSON.stringify({
+      event: "changeListID",
+      listID,
     })
   );
 };

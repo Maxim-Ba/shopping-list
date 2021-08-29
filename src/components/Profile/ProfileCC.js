@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getList, getLists } from "../../http/list.actions";
+import { getList, getLists, getSharedList } from "../../http/list.actions";
 import { changePassword, login } from "../../http/user.action";
 import { clearListsAC } from "../../redux/listReducer";
 import { toggleMenuWindowAC } from "../../redux/menuReducer";
@@ -13,6 +13,8 @@ const mapDispatchToState = (state) => ({
   lists: state.listReducer.lists,
   selectedListId:state.titleOfListReduser._id,
   ws: state.chatReducer.ws,
+  userID: state.userReducer.currentUser.id,
+
 
 });
 const mapDispatchToProps = (dispatch) => {
@@ -24,6 +26,8 @@ const mapDispatchToProps = (dispatch) => {
     getList:(listId)=>dispatch(getList(listId)),
     clearLists:()=>dispatch(clearListsAC()),
     setListFromStorage: ()=>dispatch(setListFromStorage()),
+    getSharedList : (userID) =>dispatch(getSharedList(userID)),
+
     changePassword: (email,password, newPassword) => dispatch(changePassword(email,password, newPassword))
   };
 };
