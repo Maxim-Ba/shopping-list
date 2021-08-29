@@ -25,10 +25,7 @@ export class List extends React.Component {
     });
   };
 
-  componentDidMount(){
-    // this.props.ws && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
 
-  }
   componentDidUpdate(prevProps){
     if (!this.props.isAuth) {
       saveOnLocStorage(this.props.groups, this.props.deletedItems);
