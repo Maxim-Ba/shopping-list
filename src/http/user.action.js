@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, API_URL_WS } from "../config";
+import { API_URL, API_URL_WS, API_URL_WSS } from "../config";
 import { setWebsocketAC } from "../redux/chatReducer";
 import { hideLoaderAC, showLoaderAC } from "../redux/loaderReducer";
 import { setUserAC } from "../redux/userReducer";
@@ -32,7 +32,8 @@ export const login = (email, password) => {
       dispatch(setUserAC(response.data.user));
       localStorage.setItem("token", response.data.token);
       dispatch(await getLists());
-      const wS = new WebSocket(API_URL_WS + 'api/chat/');
+      ;
+      const wS = new WebSocket(window.location.protocol === 'http' ?  API_URL_WS : API_URL_WSS + 'api/chat/');
       dispatch(setWebsocketAC(wS));
       openWS(wS);
       messageListenerWS(wS);
