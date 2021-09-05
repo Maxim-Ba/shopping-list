@@ -4,16 +4,24 @@
 
 Используемые технологии:
 
-  -Create-react-app
-  -Redux
-  -React-beautiful-dnd
-  -React-transition-group
-  -Node
-  -MongoDB
-  -Express
-  -Mongoose
-  -Bootstrap
+  - Create-react-app
+  - Redux
+  - React-beautiful-dnd
+  - React-transition-group
+  - Node
+  - MongoDB
+  - Express
+  - Mongoose
+  - Bootstrap
+  - JWT token
+  - Websocket
+  - Express
+  
+***
 
+Gh-pages: <https://maxim-ba.github.io/shopping-list/>
+Backend repository: <https://github.com/Maxim-Ba/backendForShopingList>
+***
 ### `npm start`
 
 Runs the app in the development mode.<br />
