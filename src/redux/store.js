@@ -8,9 +8,10 @@ import {userReducer} from './userReducer';
 import {loaderReducer} from './loaderReducer';
 import {listReducer} from './listReducer';
 import {chatReducer} from './chatReducer';
+import {loaderListReducer} from './loaderListReducer';
 
 
-const redusers = combineReducers({
+const reducers = combineReducers({
   itemListReducer,
   modalWindowReducer,
   titleOfListReduser,
@@ -18,8 +19,9 @@ const redusers = combineReducers({
   userReducer,
   loaderReducer,
   listReducer,
-  chatReducer
+  chatReducer,
+  loaderListReducer,
 
 });
 
-export const store = createStore(redusers, applyMiddleware(thunk));
+export const store = createStore(reducers, applyMiddleware(thunk));

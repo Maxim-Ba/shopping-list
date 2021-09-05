@@ -17,14 +17,10 @@ export default class App extends React.Component {
     if (!this.props.isAuth) {
       this.props.setListFromStorage();
     }
-
-    
     }
-  
   componentWillUnmount() {
     if (this.props.ws) {
       this.props.ws.close(1000, 'ОТКЛЮЧЕНИЕ КЛИЕНТА...');
-
     }
     localStorage.removeItem("token");
     this.props.clearLists();
@@ -38,9 +34,6 @@ export default class App extends React.Component {
     prevProps.ws==null && this.props.ws && this.props.ws.readyState === 1 && this.props.listID && firstConnectWS(this.props.ws, this.props.listID, this.props.currentUser.id, this.props.currentUser.email);
     
   }
-  // shouldComponentUpdate(nextProps){
-  //   return nextProps.isAuth !== this.props.isAuth;
-  // }
   render() {
     return (
       <div className="App mx-auto ">

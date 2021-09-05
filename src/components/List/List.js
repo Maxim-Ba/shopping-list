@@ -3,6 +3,7 @@ import { saveOnLocStorage } from "../../utils/clearList";
 import { updateDeletedAndGroups, updateGroupsWS } from "../../websocket/websocket";
 import DeletedItem from "../DeletedItem/DeletedItem";
 import { GroupItem } from "../GroupItem/GroupItem";
+import { LoaderList } from "../Spinner/LoaderList";
 
 export class List extends React.Component {
   createGroupItems = (arr) => {
@@ -40,11 +41,11 @@ export class List extends React.Component {
   }
   render() {
     return (
-      <section className="list border border-dark flex-grow-1">
+      <section className="list border border-dark flex-grow-1 overflow-x-hidden" >
+        {this.props.listLoader && <LoaderList />}
         <div className="top mb-1">
           {this.createGroupItems(this.props.groups)}
         </div>
-
         {this.props.deletedItems.length !== 0 ? (
           <div className="bottom border-top border-dark rounded pt-1 alert-secondary">
             {this.createDeletedItems(this.props.deletedItems)}

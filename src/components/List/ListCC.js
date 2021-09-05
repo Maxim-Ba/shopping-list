@@ -10,7 +10,9 @@ const mapStateToProps = (state) =>({
   isAuth: state.userReducer.isAuth,
   ws: state.chatReducer.ws,
   listID: state.titleOfListReduser._id,
-  currentUser:state.userReducer.currentUser
+  currentUser:state.userReducer.currentUser,
+  listLoader: state.loaderListReducer.loaderList,
+
 
 });
 const mapDispatchToProps = dispatch =>{

@@ -20,14 +20,12 @@ export class ModalWindow extends React.Component {
     this.props.addItem(this.state.input, this.props.colorSelected);
       
     this.setState({input: ''});
-    // this.props.changeInput("");
   };
   handleClick = () => {
     this.props.toggleModalWindow(false);
   };
   handleInput = (e) => {
     this.setState({input: e.target.value});
-    // this.props.changeInput(e.target.value);
   };
   handleSelectColor = (event, color) => {
     event.preventDefault();

@@ -1,30 +1,24 @@
 import { API_URL_WS } from "../config";
-import {
-  setWebsocketAC,
-  updateChatAC,
-  
-} from "../redux/chatReducer";
+import { setWebsocketAC, updateChatAC } from "../redux/chatReducer";
 import { setAllGroupsAC, setOnlyGroupsAC } from "../redux/ItemListReducer";
+import { hideListLoaderAC, showListLoaderAC } from "../redux/loaderListReducer";
 import { store } from "../redux/store";
 import { setColorofListAC, setNameofListAC } from "../redux/titleOfListReduser";
 
 export const openWS = async (ws, reconnect = null) => {
   ws.onopen = (event) => {
-    reconnect 
-    ? ws.send(
-      JSON.stringify({
-        event: "connection",
-      })
-    )
-    : firstConnectWS (
-      ws,
-      store.getState().titleOfListReduser._id,
-      store.getState().userReducer.currentUser.id, 
-      store.getState().userReducer.currentUser.email
-      );
-      
-
-    
+    reconnect
+      ? ws.send(
+          JSON.stringify({
+            event: "connection",
+          })
+        )
+      : firstConnectWS(
+          ws,
+          store.getState().titleOfListReduser._id,
+          store.getState().userReducer.currentUser.id,
+          store.getState().userReducer.currentUser.email
+        );
   };
 };
 
@@ -35,15 +29,19 @@ export const messageListenerWS = (ws) => {
       switch (data.event) {
         case "updateUser":
           if (data.users.length === 0) {
+            alert('пользователь не найден');
             break;
+          }
+          if (data.users==='Произошла ошибка') {
+            alert('Произошла ошибка');
           }
           break;
         case "wellDone":
           const listID = store.getState().titleOfListReduser._id;
           const userID = store.getState().userReducer.currentUser.id;
           const email = store.getState().userReducer.currentUser.email;
-          listID 
-            ? firstConnectWS (ws, listID, userID, email)
+          listID
+            ? firstConnectWS(ws, listID, userID, email)
             : console.log(listID, "listID on firstConnectWS");
           break;
         case "updateChat":
@@ -51,11 +49,16 @@ export const messageListenerWS = (ws) => {
           break;
         case "updateGroups":
           store.dispatch(setOnlyGroupsAC(data.groups));
+          store.dispatch(hideListLoaderAC());
           break;
         case "updateDeletedAndGroups":
           store.dispatch(
             setAllGroupsAC({ groups: data.groups, deleted: data.deleted })
           );
+          store.dispatch(hideListLoaderAC());
+          break;
+        case "sharedList":
+          alert("С вами поделились списком");
           break;
         case "updateNameOfList":
           store.dispatch(setNameofListAC(data.name));
@@ -91,6 +94,7 @@ export const updateGroupsWS = (ws, groups, listID, userID) => {
       userID,
     })
   );
+  store.dispatch(showListLoaderAC());
 };
 export const updateUserWS = (ws, listID, userEmail) => {
   ws.send(
@@ -111,6 +115,7 @@ export const updateDeletedAndGroups = (ws, groups, deleted, listID, userID) => {
       userID,
     })
   );
+  store.dispatch(showListLoaderAC());
 };
 
 export const firstConnectWS = (ws, listID, userID, email) => {

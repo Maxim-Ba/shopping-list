@@ -3,7 +3,9 @@ import { AddButton } from './AddButton';
 import { toggleWindowConditionAC } from '../../redux/modalWindowReducer';
 
 const mapDispatchToState = (state) => ({
-  titleColor: state.titleOfListReduser.color
+  titleColor: state.titleOfListReduser.color,
+  listLoader: state.loaderListReducer.loaderList,
+  
 });
 
 const mapDispatchToProps = (dispatch) =>({
