@@ -1,6 +1,6 @@
 # Приложение "Список покупок" 
 
-В приложении можно создавать список, добавлять элементы списка, объединять элементы в группы, добавлять картинки к элементам, удалять элементы из списка. 
+В приложении можно создавать список, добавлять элементы списка, объединять элементы в группы, удалять элементы из списка. Не зарегистрированый пользователь работает с одним списком (locale storage API). Зарегистрированые пользователи могут делиться списками и редактировать их в режиме реального времени (WebSocket), к каждому списку покупок прикреплен свой чат.
 
 Используемые технологии:
 
@@ -27,16 +27,4 @@ Backend repository: <https://github.com/Maxim-Ba/backendForShopingList>
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
