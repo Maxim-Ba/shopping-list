@@ -22,7 +22,7 @@
 Gh-pages: <https://maxim-ba.github.io/shopping-list/>
 Backend repository: <https://github.com/Maxim-Ba/backendForShopingList>
 ***
-Запуск приложения 
+# Запуск приложения 
 ### `npm i`
 ### `npm start`
 
