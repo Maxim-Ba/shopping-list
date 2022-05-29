@@ -22,6 +22,8 @@
 Gh-pages: <https://maxim-ba.github.io/shopping-list/>
 Backend repository: <https://github.com/Maxim-Ba/backendForShopingList>
 ***
+Запуск приложения 
+### `npm i`
 ### `npm start`
 
 Runs the app in the development mode.<br />
